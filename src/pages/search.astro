@@ -1,0 +1,21 @@
+---
+import Layout from "../components/Layout.astro";
+---
+
+<Layout>
+  <form>
+    <input
+      class="w-full text-black p-3 border-2 rounded-lg my-5"
+      type="search"
+      value={Astro.url.searchParams.get('q') || ''}
+      hx-trigger="keyup changed delay:200ms, search"
+      hx-get="/partials/search"
+      hx-target="#search-results"
+      hx-push-url="true"
+      name="q"
+    />
+  </form>
+  <div id="search-results">
+    test
+  </div>
+</Layout>

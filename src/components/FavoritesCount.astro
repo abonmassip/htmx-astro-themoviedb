@@ -1,0 +1,14 @@
+---
+const favoriteCookie = Astro.cookies.get("favorites");
+const favorites = (favoriteCookie?.json() as number[]) || [];
+---
+<div
+  class="text-md font-bold rounded-full bg-orange-300 text-black px-5 py-2"
+  hx-post="/partials/favorites-count"
+  hx-swap="outerHTML"
+  hx-trigger="favorites-changed from:body"
+>
+  <a href="/favorites">
+    {favorites.length} Preferits
+  </a>
+</div>

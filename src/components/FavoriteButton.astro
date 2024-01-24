@@ -1,0 +1,16 @@
+---
+const movieId = Astro.props.movieId;
+
+const favoriteCookie = Astro.cookies.get("favorites");
+const favorites = (favoriteCookie?.json() as number[]) || [];
+const isFavorite = favorites.includes(movieId);
+---
+<form
+  hx-post="/partials/favorite"
+  hx-swap="outerHTML"
+>
+  <input type="hidden" name="movieId" value={movieId} />
+  <button class={`flex ${isFavorite ? 'bg-amber-700 text-white' : 'border-2 border-amber-700 text-amber-200'} items-center px-5 py-2 rounded-full text-sm`}>
+    {isFavorite ? "Esborra dels preferits" : "Afegeix als preferits"}
+  </button>
+</form>
