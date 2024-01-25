@@ -15,6 +15,8 @@ const movies = await Promise.all(
 );
 ---
 <Layout>
-  <h2 class="font-bold mb-3 text-2xl">Els teus Preferits</h2>
+  <div class="flex justify-center">
+    <p class="font-bold mb-3 text-2xl">Els teus Preferits</p>
+  </div>
   <MovieCards movies={movies} />
 </Layout>

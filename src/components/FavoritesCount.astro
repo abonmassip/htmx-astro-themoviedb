@@ -1,14 +1,17 @@
 ---
+import { Icon } from 'astro-icon/components';
 const favoriteCookie = Astro.cookies.get("favorites");
 const favorites = (favoriteCookie?.json() as number[]) || [];
 ---
 <div
-  class="text-md font-bold rounded-full bg-orange-300 text-black px-5 py-2"
+  class="text-md font-bold rounded px-5 py-2 hover:bg-neutral-800"
   hx-post="/partials/favorites-count"
   hx-swap="outerHTML"
   hx-trigger="favorites-changed from:body"
 >
-  <a href="/favorites">
-    {favorites.length} Preferits
+  <a href="/favorites" class="flex items-center gap-2">
+    <Icon name="mdi:bookmark-plus" size={20}/>
+    Preferits
+    <span class="bg-yellow-400 text-black font-medium text-xs rounded-full px-2">{favorites.length}</span>
   </a>
 </div>

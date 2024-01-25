@@ -1,5 +1,6 @@
 ---
 import Layout from "../components/Layout.astro";
+import SearchComp from '../components/Search.astro';
 ---
 
 <Layout>
@@ -7,15 +8,16 @@ import Layout from "../components/Layout.astro";
     <input
       class="w-full text-black p-3 border-2 rounded-lg my-5"
       type="search"
+      placeholder="Busca"
       value={Astro.url.searchParams.get('q') || ''}
-      hx-trigger="keyup changed delay:200ms, search"
+      hx-trigger="keyup changed delay:1000ms, search"
       hx-get="/partials/search"
       hx-target="#search-results"
-      hx-push-url="true"
+      hx-push-url="/search"
       name="q"
     />
   </form>
   <div id="search-results">
-    test
+    <SearchComp query={Astro.url.searchParams.get('q') || ''} />
   </div>
 </Layout>
