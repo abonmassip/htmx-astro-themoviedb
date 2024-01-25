@@ -11,7 +11,7 @@ const favorites = (favoriteCookie?.json() as number[]) || [];
 >
   <a href="/favorites" class="flex items-center gap-2">
     <Icon name="mdi:bookmark-plus" size={20}/>
-    Preferits
+    <div id="AQUI" class="hidden md:block">Preferits</div>
     <span class="bg-yellow-400 text-black font-medium text-xs rounded-full px-2">{favorites.length}</span>
   </a>
 </div>

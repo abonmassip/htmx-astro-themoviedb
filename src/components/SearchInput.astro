@@ -1,0 +1,20 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<form class="w-1/2 flex rounded focus-within:outline outline-2 outline-yellow-400">
+  <input
+    class="w-full text-black px-3 py-1 rounded-l text-sm focus:outline-none"
+    type="search"
+    name="search"
+    placeholder="Busca a IPBb"
+    value={Astro.url.searchParams.get('search') || ''}
+    hx-trigger="keyup[keyCode==13] changed delay:500ms, search"
+    hx-target="#paged-results"
+    hx-swap="outerHTML"
+
+  />
+  <button class="bg-white rounded-r px-2">
+    <Icon name="mdi:magnify" color="grey" size={20}/>
+  </button>
+</form>

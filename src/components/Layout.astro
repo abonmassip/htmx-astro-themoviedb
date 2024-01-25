@@ -1,6 +1,6 @@
 ---
-import { Icon } from 'astro-icon/components';
-import FavoritesCount from "./FavoritesCount.astro"
+import SearchInput from "./SearchInput.astro";
+import FavoritesCount from "./FavoritesCount.astro";
 ---
 
 <html lang="ca">
@@ -11,26 +11,12 @@ import FavoritesCount from "./FavoritesCount.astro"
 		<meta name="generator" content={Astro.generator} />
 		<title>IPBd: La millor BBDD de pel·lícules a internet</title>
 	</head>
-	<body class="bg-black max-w-6xl mx-auto text-white px-5 md:px-0 hx-boost">
-		<header class="flex justify-between items-center p-4 bg-neutral-900 mb-6">
+	<body class="bg-black max-w-6xl mx-auto text-white hx-boost">
+		<header class="flex justify-between items-center py-4 md:px-4 bg-neutral-900 mb-6">
       <h1 class="text-2xl flex px-5">
         <a href="/" class="font-bold text-black bg-yellow-400 rounded px-1 shadow-md shadow-black">IPBd</a>
       </h1>
-      <form class="w-1/2 flex rounded focus-within:outline outline-2 outline-yellow-400">
-        <input
-          class="w-full text-black px-3 py-1 rounded-l text-sm focus:outline-none"
-          type="search"
-          placeholder="Busca a IPBb"
-          value={Astro.url.searchParams.get('q') || ''}
-          hx-trigger="keyup[keyCode==13] changed delay:500ms, search"
-          hx-get="/partials/search"
-          hx-target="#paged-results"
-          hx-push-url={`?search=${Astro.url.searchParams.get('q') || ''}`}
-        />
-        <button class="bg-white rounded-r px-2">
-          <Icon name="mdi:magnify" color="grey" size={20}/>
-        </button>
-      </form>
+      <SearchInput />
       <div id="favorites-count">
         <FavoritesCount />
       </div>

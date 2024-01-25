@@ -3,49 +3,27 @@ import { Icon } from 'astro-icon/components';
 
 import FavoriteButton from "./FavoriteButton.astro";
 ---
-<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-
-  <!-- {Astro.props.movies.map((m) => (
-    <div class="flex m-2">
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 px-4">
+  {Astro.props.movies.map((m) => (
+    <div class="flex flex-col bg-neutral-900 rounded-b-lg">
+      <div class="absolute overflow-hidden">
+        <FavoriteButton movieId={m.id} />
+      </div>
       <img
-        class="w-1/4 aspect-w-5 aspect-h-7 rounded-tl-lg rounded-bl-lg"
+        class="w-full"
         src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
         alt=""
       />
-      <div class="w-3/4 flex flex-col">
-        <div class="font-bold text-xl px-4 py-2 bg-neutral-800 text-white rounded-tr-md">{m.original_title}</div>
-        <div class="pt-3 border-neutral-900 border-b-2 border-r-2 rounded-br-lg flex-grow">
-          <div class="italic line-clamp-2 px-4">{m.overview}</div>
-          <div class="flex justify-between px-4 pt-3 items-center">
-            <FavoriteButton movieId={m.id} />
-            <div>{m.vote_average.toFixed(1)}/10</div>
+      <div class="flex flex-col">
+        <div class="font-semibold px-2 py-1 h-20">
+          <div class="flex items-center gap-1 text-neutral-400">
+            <Icon name="mdi:star" color="gold" size={16}/>
+            {m.vote_average.toFixed(1)}
           </div>
+          {m.original_title}
         </div>
+        <div class="mb-3 text-sm italic line-clamp-3 px-4">{m.overview}</div>
       </div>
     </div>
-  ))} -->
-  {Astro.props.movies.map((m) => (
-    // <div class="text-white">
-      <div class="flex flex-col bg-neutral-900 rounded-b-lg">
-        <div class="absolute overflow-hidden">
-          <FavoriteButton movieId={m.id} />
-        </div>
-        <img
-          class="w-full"
-          src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
-          alt=""
-        />
-        <div class="flex flex-col">
-          <div class="font-semibold px-2 py-1 h-20">
-            <div class="flex items-center gap-1 text-neutral-400">
-              <Icon name="mdi:star" color="gold" size={16}/>
-              {m.vote_average.toFixed(1)}
-            </div>
-            {m.original_title}
-          </div>
-          <div class="mb-3 text-sm italic line-clamp-3 px-4">{m.overview}</div>
-        </div>
-      </div>
-    // </div>
   ))}
 </div>

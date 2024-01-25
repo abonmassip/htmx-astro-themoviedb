@@ -2,31 +2,20 @@
 import { Icon } from 'astro-icon/components';
 import MovieCards from './MovieCards.astro';
 
-const list = Astro.props.list || 'popular';
+const searchQuery = Astro.url.searchParams.get('search') || null;
+const list = searchQuery ? 'search' : Astro.props.list || 'popular';
 const page = +(Astro.props.page || 1);
 
-const response = await fetch(
-  `https://api.themoviedb.org/3/movie/${list}?include_adult=false&language=en-US&page=${page}&api_key=${import.meta.env.TMDB_API_KEY}`
-);
+const apiKey = import.meta.env.TMDB_API_KEY;
+const apiUrl = searchQuery
+  ? `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(searchQuery)}&include_adult=false&language=en-US&page=${page}&api_key=${apiKey}`
+  : `https://api.themoviedb.org/3/movie/${list}?include_adult=false&language=en-US&page=${page}&api_key=${apiKey}`
 
+const response = await fetch(apiUrl);
 const data = await response.json();
 ---
 <div id="paged-results" hx-boost>
-  <!-- <div class="flex justify-end pr-5 py-5">
-    <div class="flex gap-1 text-xl font-bold">
-      {new Array(3).fill(0).map((_, i) => (
-        <a
-          class={`${i + 1 === page ? 'bg-neutral-800 text-white' : ''} px-4 py-2 border border-gray-300 rounded hover:bg-neutral-200`}
-          href={`?page=${i + 1}`}
-          hx-get={`/partials/paged-movies/?page=${i + 1}`}
-          hx-target="#paged-results"
-          hx-swap="outerHTML"
-          hx-push-url={`/?page=${i + 1}`}
-        >{i + 1}</a>
-      ))}
-    </div>
-  </div> -->
-  <div class="flex justify-around font-bold uppercase mb-6">
+  <div class="flex flex-col md:flex-row justify-around font-bold uppercase mb-6">
     {
       [
         ['Ara al cine', 'now_playing'],
@@ -45,31 +34,33 @@ const data = await response.json();
       ))
     }
   </div>
-  <div class="flex justify-between items-center px-5 mb-3 font-bold">
-    <a
-      class={`${page === 1 && 'text-black'} hover:bg-neutral-900 font-bold rounded py-1 px-2 flex items-end gap-2`}
-      href={`?page=${page - 1}`}
-      hx-get={`/partials/paged-movies/?list=${list}&page=${page - 1}`}
-      hx-target="#paged-results"
-      hx-swap="outerHTML"
-      hx-push-url={`/?list=${list}&page=${page - 1}`}
-      style={`${page === 1 && 'pointer-events: none; user-select: none'}`}
-    >
-      <Icon name="mdi:arrow-left-bold" size={20}/>
-      anterior
-    </a>
-    <p class="font-normal">- {page} -</p>
-    <a
-      class="hover:bg-neutral-900 rounded py-1 px-2 flex items-end gap-2"
-      href={`?page=${page + 1}`}
-      hx-get={`/partials/paged-movies/?list=${list}&page=${page + 1}`}
-      hx-target="#paged-results"
-      hx-swap="outerHTML"
-      hx-push-url={`/?list=${list}&page=${page + 1}`}
-    >
-      següent
-      <Icon name="mdi:arrow-right-bold" size={20}/>
-    </a>
-  </div>
+  {
+    searchQuery ? null : <div class="flex justify-between items-center px-5 mb-3 font-bold">
+      <a
+        class={`${page === 1 && 'text-black'} hover:bg-neutral-900 font-bold rounded py-1 px-2 flex items-end gap-2`}
+        href={`?page=${page - 1}`}
+        hx-get={`/partials/paged-movies/?list=${list}&page=${page - 1}`}
+        hx-target="#paged-results"
+        hx-swap="outerHTML"
+        hx-push-url={`/?list=${list}&page=${page - 1}`}
+        style={`${page === 1 && 'pointer-events: none; user-select: none'}`}
+      >
+        <Icon name="mdi:arrow-left-bold" size={20}/>
+        anterior
+      </a>
+      <p class="font-normal">- {page} -</p>
+      <a
+        class="hover:bg-neutral-900 rounded py-1 px-2 flex items-end gap-2"
+        href={`?page=${page + 1}`}
+        hx-get={`/partials/paged-movies/?list=${list}&page=${page + 1}`}
+        hx-target="#paged-results"
+        hx-swap="outerHTML"
+        hx-push-url={`/?list=${list}&page=${page + 1}`}
+      >
+        següent
+        <Icon name="mdi:arrow-right-bold" size={20}/>
+      </a>
+    </div>
+  }
   <MovieCards movies={data.results}/>
 </div>
