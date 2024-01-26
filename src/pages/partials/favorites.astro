@@ -1,6 +1,5 @@
 ---
-import Layout from "../components/Layout.astro";
-import MovieCards from '../components/MovieCards.astro';
+import MovieCards from '../../components/MovieCards.astro';
 
 const favoriteCookie = Astro.cookies.get("favorites");
 const favorites = (favoriteCookie?.json() as number[]) || [];
@@ -13,10 +12,11 @@ const movies = await Promise.all(
     return await res.json();
   })
 );
+
+export const partial = true;
+
 ---
-<Layout>
-  <div class="flex justify-center">
-    <p class="font-bold mb-3 text-2xl">Els teus Preferits</p>
-  </div>
-  <MovieCards movies={movies} />
-</Layout>
+<div class="flex justify-center">
+  <p class="font-bold mb-3 text-2xl">Els teus Preferits</p>
+</div>
+<MovieCards movies={movies} />

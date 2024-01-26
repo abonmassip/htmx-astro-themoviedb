@@ -4,12 +4,17 @@ const favoriteCookie = Astro.cookies.get("favorites");
 const favorites = (favoriteCookie?.json() as number[]) || [];
 ---
 <div
-  class="text-md font-bold rounded px-5 py-2 hover:bg-neutral-800"
+  class="text-md font-bold rounded px-5 py-2 hover:bg-neutral-800 cursor-pointer"
   hx-post="/partials/favorites-count"
   hx-swap="outerHTML"
   hx-trigger="favorites-changed from:body"
 >
-  <a href="/favorites" class="flex items-center gap-2">
+  <a
+    class="flex items-center gap-2"
+    hx-get={`/partials/favorites`}
+    hx-target="#paged-results"
+    hx-swap="outerHTML"
+  >
     <Icon name="mdi:bookmark-plus" size={20}/>
     <div id="AQUI" class="hidden md:block">Preferits</div>
     <span class="bg-yellow-400 text-black font-medium text-xs rounded-full px-2">{favorites.length}</span>
